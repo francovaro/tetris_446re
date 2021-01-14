@@ -24,6 +24,8 @@
 #include "task.h"
 #include "queue.h"
 
+#include "task_handler.h"
+
 #include "stm32f4xx.h"
 
 unsigned long ulRunTimeStatsClock;
@@ -31,6 +33,7 @@ unsigned long ulRunTimeStatsClock;
 int main(void)
 {
 
+	uiTaskhandler_CreateAllTasks();
 	/* Start the scheduler. */
 	vTaskStartScheduler();
 

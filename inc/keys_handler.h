@@ -21,15 +21,6 @@ typedef enum
 	eKey_LAST,
 } eKeyboard_key;
 
-typedef struct
-{
-	uint32_t 			pin;
-	uint32_t			intLine;
-	GPIO_TypeDef*		port;
-	eKeyboard_key 		key;
-	void (*func) (void);
-}t_keyboard;
-
 extern void vKeysHandlerTask(void* pvParameters);
 
 #endif /* INC_KEYS_HANDLER_H_ */

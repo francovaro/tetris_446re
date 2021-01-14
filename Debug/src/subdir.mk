@@ -7,19 +7,25 @@ C_SRCS += \
 ../src/keys_handler.c \
 ../src/main.c \
 ../src/syscalls.c \
-../src/system_stm32f4xx.c 
+../src/system_stm32f4xx.c \
+../src/task_handler.c \
+../src/tetris_handler.c 
 
 OBJS += \
 ./src/keys_handler.o \
 ./src/main.o \
 ./src/syscalls.o \
-./src/system_stm32f4xx.o 
+./src/system_stm32f4xx.o \
+./src/task_handler.o \
+./src/tetris_handler.o 
 
 C_DEPS += \
 ./src/keys_handler.d \
 ./src/main.d \
 ./src/syscalls.d \
-./src/system_stm32f4xx.d 
+./src/system_stm32f4xx.d \
+./src/task_handler.d \
+./src/tetris_handler.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

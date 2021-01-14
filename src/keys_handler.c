@@ -27,6 +27,16 @@
 #define KEYS_HANDLER_PERIOD 		(1u)
 #define KEYS_PRESSED_THRESHOLD		(5u)	/* in ms*/
 /* -------------------------------------------------------------------------------------------------------------------- */
+typedef struct
+{
+	uint32_t 			pin;
+	uint32_t			intLine;
+	GPIO_TypeDef*		port;
+	eKeyboard_key 		key;
+	void (*func) (void);
+}t_keyboard;
+
+/* -------------------------------------------------------------------------------------------------------------------- */
 static void keyboard_Init(void);
 static void keyboard_SetFunctionality(void);
 static void keyboard_HW_init(void);
@@ -36,6 +46,10 @@ __IO uint16_t _notifyKeyPressed;
 static t_keyboard keyboard[eKey_LAST];
 
 /* -------------------------------------------------------------------------------------------------------------------- */
+/**
+ *
+ * @param portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
+ */
 portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 {
 	static uint16_t 	counter[eKey_LAST] = {0};
