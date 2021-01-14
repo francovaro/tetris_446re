@@ -6,6 +6,11 @@
  *  @author: Francesco Varani
  *  @date  : 14 gen 2021
  */
+/* FreeRTOS include */
+#include "FreeRTOS.h"
+#include "task.h"
+
+/* hw stuff include */
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_tim.h"
 #include "stm32f4xx_exti.h"
@@ -13,14 +18,64 @@
 #include <stdint.h>
 #include "keys_handler.h"
 
-
+/**
+ * here we:
+ * - initializes HW for keyboard
+ * -
+ */
+/* -------------------------------------------------------------------------------------------------------------------- */
+#define KEYS_HANDLER_PERIOD 		(1u)
+#define KEYS_PRESSED_THRESHOLD		(5u)	/* in ms*/
+/* -------------------------------------------------------------------------------------------------------------------- */
+static void keyboard_Init(void);
 static void keyboard_SetFunctionality(void);
 static void keyboard_HW_init(void);
+/* -------------------------------------------------------------------------------------------------------------------- */
+__IO uint16_t _keyPressedGlobal;
+__IO uint16_t _notifyKeyPressed;
 static t_keyboard keyboard[eKey_LAST];
 
-
-void Keyboard_Init(void)
+/* -------------------------------------------------------------------------------------------------------------------- */
+portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 {
+	static uint16_t 	counter[eKey_LAST] = {0};
+	TickType_t 			loop_start_tick = 0;
+	uint8_t				i;
+
+	keyboard_Init();
+	loop_start_tick = xTaskGetTickCount();
+
+	while(1)	/* live forever */
+	{
+		for( i = 0; i < eKey_LAST; i++)
+		{
+			if (_keyPressedGlobal & (1<<i))
+			{
+				counter[i]++;
+				if (counter[i] > KEYS_PRESSED_THRESHOLD)
+				{
+					_notifyKeyPressed |= (1<<i);	/* set it */
+				}
+			}
+			else
+			{
+				counter[i] = 0;
+				_notifyKeyPressed &= (~(1<<i));	/*	clear it */
+			}
+		}
+		vTaskDelayUntil (&loop_start_tick, KEYS_HANDLER_PERIOD);
+	}
+}
+
+/* -------------------------------------------------------------------------------------------------------------------- */
+/**
+ *
+ */
+static void keyboard_Init(void)
+{
+	_keyPressedGlobal = 0;
+	_notifyKeyPressed = 0;
+
 	keyboard_SetFunctionality();
 	keyboard_HW_init();
 }
@@ -78,7 +133,6 @@ static void keyboard_HW_init(void)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	EXTI_InitTypeDef EXTI_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
-
 
 	/* init clock */
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
@@ -147,6 +201,7 @@ static void keyboard_HW_init(void)
 	NVIC_Init(&NVIC_InitStructure);
 }
 
+/* -------------------------------------------------------------------------------------------------------------------- */
 /**
  *
  */
@@ -161,11 +216,11 @@ void EXTI9_5_IRQHandler(void)
 			EXTI_ClearITPendingBit(keyboard[i].intLine);
 			if (GPIO_ReadInputDataBit(keyboard[i].port, keyboard[i].pin) == RESET)
 			{
-
+				_keyPressedGlobal|= (1 << keyboard[i].key);	/* let's xor it */
 			}
 			else
 			{
-
+				_keyPressedGlobal &= (~(1 << keyboard[i].key));	/* let's xor it */
 			}
 		}
 	}
@@ -184,16 +239,15 @@ void EXTI15_10_IRQHandler(void)
 		if (EXTI_GetITStatus(keyboard[i].intLine) == SET)
 		{
 			EXTI_ClearITPendingBit(keyboard[i].intLine);
-			//pressedGlobal = pressedGlobal | (1 << keyboard[i].key);
+
 			if (GPIO_ReadInputDataBit(keyboard[i].port, keyboard[i].pin) == RESET)
 			{
-
+				_keyPressedGlobal |= (1 << keyboard[i].key);	/* let's xor it */
 			}
 			else
 			{
-
+				_keyPressedGlobal &= (~(1 << keyboard[i].key));	/* let's xor it */
 			}
 		}
 	}
-
 }

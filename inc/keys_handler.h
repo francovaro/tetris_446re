@@ -30,6 +30,6 @@ typedef struct
 	void (*func) (void);
 }t_keyboard;
 
-void Keyboard_Init(void);
+extern void vKeysHandlerTask(void* pvParameters);
 
 #endif /* INC_KEYS_HANDLER_H_ */
