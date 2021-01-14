@@ -7,6 +7,7 @@
 "src/FreeRTOS/timers.o"
 "src/FreeRTOS/portable/GCC/ARM_CM4F/port.o"
 "src/FreeRTOS/portable/MemMang/heap_4.o"
+"src/keys_handler.o"
 "src/main.o"
 "src/syscalls.o"
 "src/system_stm32f4xx.o"
