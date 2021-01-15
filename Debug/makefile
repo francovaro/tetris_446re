@@ -34,13 +34,14 @@ endif
 all: tetris_446re.elf
 
 dependents:
-	-cd C:/work/workspace_stm/nucleo-f446re_stdperiph_lib/Debug && $(MAKE) all
+	-cd C:/work/workspace_stm/nucleo-f446re_stdperiph_lib/Debug && $(MAKE) clean all
+	-cd C:/work/workspace_stm/lib_uart/Debug && $(MAKE) clean all
 
 # Tool invocations
-tetris_446re.elf: $(OBJS) $(USER_OBJS) C:/work/workspace_stm/nucleo-f446re_stdperiph_lib/Debug/libnucleo-f446re_stdperiph_lib.a C:\work\workspace_stm\tetris_446re/LinkerScript.ld
+tetris_446re.elf: $(OBJS) $(USER_OBJS) C:/work/workspace_stm/nucleo-f446re_stdperiph_lib/Debug/libnucleo-f446re_stdperiph_lib.a C:/work/workspace_stm/lib_uart/Debug/liblib_uart.a C:\work\workspace_stm\tetris_446re/LinkerScript.ld
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU GCC Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -L"C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug" -T"C:/work/workspace_stm/tetris_446re/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "tetris_446re.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -L"C:\work\workspace_stm\lib_uart\Debug" -L"C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug" -T"C:/work/workspace_stm/tetris_446re/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "tetris_446re.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
@@ -59,5 +60,6 @@ post-build:
 .PHONY: all clean dependents
 .SECONDARY: post-build
 C:/work/workspace_stm/nucleo-f446re_stdperiph_lib/Debug/libnucleo-f446re_stdperiph_lib.a:
+C:/work/workspace_stm/lib_uart/Debug/liblib_uart.a:
 
 -include ../makefile.targets

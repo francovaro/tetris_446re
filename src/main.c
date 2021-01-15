@@ -24,6 +24,7 @@
 #include "task.h"
 #include "queue.h"
 
+#include "hardware.h"
 #include "task_handler.h"
 
 #include "stm32f4xx.h"

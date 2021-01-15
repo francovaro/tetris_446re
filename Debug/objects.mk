@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lnucleo-f446re_stdperiph_lib
+LIBS := -llib_uart -lnucleo-f446re_stdperiph_lib
 
