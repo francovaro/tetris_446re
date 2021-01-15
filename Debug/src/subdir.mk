@@ -6,6 +6,7 @@
 C_SRCS += \
 ../src/keys_handler.c \
 ../src/main.c \
+../src/spi.c \
 ../src/syscalls.c \
 ../src/system_stm32f4xx.c \
 ../src/task_handler.c \
@@ -14,6 +15,7 @@ C_SRCS += \
 OBJS += \
 ./src/keys_handler.o \
 ./src/main.o \
+./src/spi.o \
 ./src/syscalls.o \
 ./src/system_stm32f4xx.o \
 ./src/task_handler.o \
@@ -22,6 +24,7 @@ OBJS += \
 C_DEPS += \
 ./src/keys_handler.d \
 ./src/main.d \
+./src/spi.d \
 ./src/syscalls.d \
 ./src/system_stm32f4xx.d \
 ./src/task_handler.d \

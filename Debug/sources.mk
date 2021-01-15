@@ -19,5 +19,6 @@ src/FreeRTOS \
 src/FreeRTOS/portable/GCC/ARM_CM4F \
 src/FreeRTOS/portable/MemMang \
 src \
+src/lcd \
 startup \
 
