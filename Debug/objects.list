@@ -15,6 +15,7 @@
 "src/system_stm32f4xx.o"
 "src/task_handler.o"
 "src/tetris_handler.o"
+"src/lcd/delay.o"
 "src/lcd/lcd.o"
 "src/lcd/st7735_cmd.o"
 "startup/startup_stm32.o"

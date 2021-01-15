@@ -21,6 +21,8 @@
 #include "common_options.h"
 
 #if DEBUG_KEYS_PRINT == 1
+#include <string.h>
+#include <stdio.h>
 #include "lib_uart.h"
 #endif
 
@@ -77,12 +79,22 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 					if (counter[i] > KEYS_PRESSED_THRESHOLD)
 					{
 						_notifyKeyPressed |= (1<<i);	/* set it */
+#if DEBUG_KEYS_PRINT == 1
+						char str_debug[100] = "0";
+						snprintf(str_debug, sizeof(str_debug), "Keys handler: pressed %d", i);
+						UART_lib_sendData(str_debug, strlen(str_debug));
+#endif
 					}
 				}
 				else
 				{
 					counter[i] = 0;
 					_notifyKeyPressed &= (~(1<<i));	/*	clear it */
+#if DEBUG_KEYS_PRINT == 1
+                        char str_debug[100] = "0";
+                        snprintf(str_debug, sizeof(str_debug), "Keys handler: released %d", i);
+                        UART_lib_sendData(str_debug, strlen(str_debug));
+#endif
 				}
 			}
 			vTaskDelayUntil (&loop_start_tick, KEYS_HANDLER_PERIOD);
@@ -91,6 +103,11 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 	else
 	{
 		/* error message ? */
+#if DEBUG_KEYS_PRINT == 1
+        char str_debug[100] = "0";
+        snprintf(str_debug, sizeof(str_debug), "Keys handler: hw not initialized");
+        UART_lib_sendData(str_debug, strlen(str_debug));
+#endif
 	}
 }
 

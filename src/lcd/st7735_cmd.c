@@ -92,151 +92,69 @@ static uint8_t COLMOD_buffer_buffer[1] 	= {0x05};
  */
 static uint8_t MAD_CTL_buffer[1] = {0x00};	/* was 0 */
 
-/**
- *
- */
-void ST7735_sys_cmd_init(void)
-{    
-    /* Software Reset */
-    _lcd_sys_cmd[SYS_CMD_SWRESET].cmd = 0x01;
-    _lcd_sys_cmd[SYS_CMD_SWRESET].nrOfByte = 0;
-    _lcd_sys_cmd[SYS_CMD_SWRESET].data = NULL;
-
-    /* Sleep ON */
-	_lcd_sys_cmd[SLPIN].cmd = 0x10;
-	_lcd_sys_cmd[SLPOUT].nrOfByte = 0;
-	_lcd_sys_cmd[SLPIN].data = NULL;
-
-    /* Sleep Out & Booster On */
-    _lcd_sys_cmd[SLPOUT].cmd = 0x11;
-    _lcd_sys_cmd[SLPOUT].nrOfByte = 0;
-    _lcd_sys_cmd[SLPOUT].data = NULL;
-
-    /* Memory Data Access Control */
-    _lcd_sys_cmd[MADCTL].cmd = 0x36;
-    _lcd_sys_cmd[MADCTL].nrOfByte = 1;
-    _lcd_sys_cmd[MADCTL].data = MAD_CTL_buffer;
-    
-    /* Column Address Set */
-    _lcd_sys_cmd[CASET].cmd = 0x2A;
-    _lcd_sys_cmd[CASET].nrOfByte = 4;
-    _lcd_sys_cmd[CASET].data = CASET_buffer_buffer;
-
-    /* Row Address Set */
-    _lcd_sys_cmd[RASET].cmd = 0x2B;
-    _lcd_sys_cmd[RASET].nrOfByte = 4;
-    _lcd_sys_cmd[RASET].data = RASET_buffer_buffer;
-
-    /* Display ON */
-    _lcd_sys_cmd[DISPON].cmd = 0x29;
-	_lcd_sys_cmd[DISPON].nrOfByte = 0;
-	_lcd_sys_cmd[DISPON].data = NULL;
-
-	/* Display OFF */
-	_lcd_sys_cmd[DISPOFF].cmd = 0x28;
-	_lcd_sys_cmd[DISPOFF].nrOfByte = 0;
-	_lcd_sys_cmd[DISPOFF].data = NULL;
-
-    /* Interface Pixel Format */
-    _lcd_sys_cmd[COLMOD].cmd = 0x3A;
-    _lcd_sys_cmd[COLMOD].nrOfByte = 1;
-    _lcd_sys_cmd[COLMOD].data = COLMOD_buffer_buffer;
-
-    /* Display Inversion Off (Normal) */
-    _lcd_sys_cmd[INVOFF].cmd = 0x20;
-    _lcd_sys_cmd[INVOFF].nrOfByte = 0;
-    _lcd_sys_cmd[INVOFF].data = NULL;
-
-
-    /* VCOM Control 1 */
-	_lcd_sys_cmd[NORON].cmd = 0x13;
-	_lcd_sys_cmd[NORON].nrOfByte = 0;
-	_lcd_sys_cmd[NORON].data = NULL;
-
-    /* VCOM Control 1 */
-	_lcd_sys_cmd[GAMSET].cmd = 0x26;
-	_lcd_sys_cmd[GAMSET].nrOfByte = 1;
-	_lcd_sys_cmd[GAMSET].data = GAMSET_buffer_buffer;
-
-	/* Memory Write */
-	_lcd_sys_cmd[RAMWR].cmd = 0x2C;
-	_lcd_sys_cmd[RAMWR].nrOfByte = 0;
-	_lcd_sys_cmd[RAMWR].data = NULL;
-
-	/* IDLE MODE OFF */
-	_lcd_sys_cmd[IDMOFF].cmd = 0x38;
-	_lcd_sys_cmd[IDMOFF].nrOfByte = 0;
-	_lcd_sys_cmd[IDMOFF].data = NULL;
-
-	/* IDLE MODE ON */
-	_lcd_sys_cmd[IDMON].cmd = 0x39;
-	_lcd_sys_cmd[IDMON].nrOfByte = 0;
-	_lcd_sys_cmd[IDMON].data = NULL;
-
-
-}
+static void ST7735_sys_cmd_init(void);
+static void ST7735_panel_cmd_init(void);
 
 /**
- *
+ * @brief Initializes command array and the LCD.
+ * @note SPI should be already initialized !
  */
-void ST7735_panel_cmd_init(void)
+void ST7735_init_with_commands(void)
 {
-    /* In Normal Mode (Full Colors) */
-    _lcd_panel_cmd[FRMCTR1].cmd = 0xB1;
-    _lcd_panel_cmd[FRMCTR1].nrOfByte = 3;
-    _lcd_panel_cmd[FRMCTR1].data = FRMCTR1_buffer;
+    //CS_L();
+    /* Init command */
+    ST7735_sys_cmd_init();
+    ST7735_panel_cmd_init();
+    /* Reset Sequence START*/
+    Lcd_reset();
 
-    /* In Idle Mode (8-colors) */
-    _lcd_panel_cmd[FRMCTR2].cmd = 0xB2;
-    _lcd_panel_cmd[FRMCTR2].nrOfByte = 3;
-    _lcd_panel_cmd[FRMCTR2].data = FRMCTR2_buffer;
+    _lcd_screen_w = LCD_SCREEN_W;
+    _lcd_screen_h = LCD_SCREEN_H;
 
-    /* In Partial Mode + FullColors */
-    _lcd_panel_cmd[FRMCTR3].cmd = 0xB3;
-    _lcd_panel_cmd[FRMCTR3].nrOfByte = 6;
-    _lcd_panel_cmd[FRMCTR3].data = FRMCTR3_buffer;
+    //CS_L();   /* start of transmission */
 
-    /*  Power Control Setting */
-    _lcd_panel_cmd[PWCTR1].cmd = 0xC0;
-    _lcd_panel_cmd[PWCTR1].nrOfByte = 3;
-    _lcd_panel_cmd[PWCTR1].data = PWCTR1_buffer;
+    ST7735_send_sys_cmd(SYS_CMD_SWRESET);   /* 0x01 */
+    Delay_ms(150);
 
-    /* Power Control Setting */
-    _lcd_panel_cmd[PWCTR2].cmd = 0xC1;
-    _lcd_panel_cmd[PWCTR2].nrOfByte = 1;
-    _lcd_panel_cmd[PWCTR2].data = PWCTR2_buffer;
+    ST7735_send_sys_cmd(SLPOUT);    /* 0x11 */
+    Delay_ms(500);
+    /* Reset Sequence END */
 
-    _lcd_panel_cmd[PWCTR3].cmd = 0xC2;
-    _lcd_panel_cmd[PWCTR3].nrOfByte = 2;
-    _lcd_panel_cmd[PWCTR3].data = PWCTR3_buffer;
+    /* Frame Rate */
+    ST7735_send_panel_cmd(FRMCTR1); /* 0xB1 */
+    ST7735_send_panel_cmd(FRMCTR2); /* 0xB2 */
+    ST7735_send_panel_cmd(FRMCTR3); /* 0xB3 */
 
-    _lcd_panel_cmd[PWCTR4].cmd = 0xC3;
-    _lcd_panel_cmd[PWCTR4].nrOfByte = 2;
-    _lcd_panel_cmd[PWCTR4].data = PWCTR4_buffer;
+    ST7735_send_panel_cmd(INVCTR);  /* 0xB4 */      /* dot inversion */
 
-    _lcd_panel_cmd[PWCTR5].cmd = 0xC4;
-    _lcd_panel_cmd[PWCTR5].nrOfByte = 2;
-    _lcd_panel_cmd[PWCTR5].data = PWCTR5_buffer;
+    ST7735_send_panel_cmd(PWCTR1);  /* 0xC0 */
+    ST7735_send_panel_cmd(PWCTR2);  /* 0xC1 */
+    ST7735_send_panel_cmd(PWCTR3);  /* 0xC2 */
+    ST7735_send_panel_cmd(PWCTR4);  /* 0xC3 */
+    ST7735_send_panel_cmd(PWCTR5);  /* 0xC4 */
 
-    /* VCOM Control 1 */
-    _lcd_panel_cmd[VMCTR1].cmd = 0xC5;
-    _lcd_panel_cmd[VMCTR1].nrOfByte = 1;
-    _lcd_panel_cmd[VMCTR1].data = VMCTR1_buffer;
+    ST7735_send_sys_cmd(VMCTR1);    /* 0xC5*/
 
-    _lcd_panel_cmd[GAMCTRP1].cmd = 0xE0;
-    _lcd_panel_cmd[GAMCTRP1].nrOfByte = 16;
-    _lcd_panel_cmd[GAMCTRP1].data = GAMCTRP1_buffer;
+    ST7735_send_sys_cmd(INVOFF);    /* 0x20 */
 
-    _lcd_panel_cmd[GAMCTRN1].cmd = 0xE1;
-    _lcd_panel_cmd[GAMCTRN1].nrOfByte = 16;
-    _lcd_panel_cmd[GAMCTRN1].data = GAMCTRN1_buffer;
+    ST7735_send_sys_cmd(MADCTL);    /* 0x36*/
 
-    /* VCOM Control 1 */
-    _lcd_panel_cmd[INVCTR].cmd = 0xB4;
-    _lcd_panel_cmd[INVCTR].nrOfByte = 1;
-    _lcd_panel_cmd[INVCTR].data = INVCTR_buffer;
+    ST7735_send_sys_cmd(COLMOD);    /* 0x3A */
 
+    ST7735_send_panel_cmd(CASET);   /* 0xE0 */
+    ST7735_send_panel_cmd(RASET);   /* 0xE1 */
+    ST7735_send_panel_cmd(GAMCTRP1);    /* 0xE0 */
+    ST7735_send_panel_cmd(GAMCTRN1);    /* 0xE1 */
+
+    ST7735_send_sys_cmd(NORON);     /* */
+    Delay_ms(10);
+
+    ST7735_send_sys_cmd(DISPON);    /* */
+    Delay_ms(100);
+
+    //CS_H();   /* end of transmission */
 }
+
 
 /**
  *
@@ -288,63 +206,8 @@ void ST7735_send_panel_cmd(tST7735_panel_cmd panelCmd)
 
 /**
  *
+ * @param power
  */
-void ST7735_init_with_commands(void)
-{
-	//CS_L();
-	/* Init command */
-	ST7735_sys_cmd_init();
-	ST7735_panel_cmd_init();
-	/* Reset Sequence START*/
-	Lcd_reset();
-
-	_lcd_screen_w = LCD_SCREEN_W;
-	_lcd_screen_h = LCD_SCREEN_H;
-
-	//CS_L();	/* start of transmission */
-
-    ST7735_send_sys_cmd(SYS_CMD_SWRESET);	/* 0x01 */
-    Delay_ms (150);
-
-	ST7735_send_sys_cmd(SLPOUT);	/* 0x11 */
-	Delay_ms (500);
-	/* Reset Sequence END */
-
-	/* Frame Rate */
-	ST7735_send_panel_cmd(FRMCTR1);	/* 0xB1 */
-	ST7735_send_panel_cmd(FRMCTR2);	/* 0xB2 */
-	ST7735_send_panel_cmd(FRMCTR3);	/* 0xB3 */
-
-	ST7735_send_panel_cmd(INVCTR);	/* 0xB4 */		/* dot inversion */
-
-	ST7735_send_panel_cmd(PWCTR1);	/* 0xC0 */
-	ST7735_send_panel_cmd(PWCTR2);	/* 0xC1 */
-	ST7735_send_panel_cmd(PWCTR3);	/* 0xC2 */
-	ST7735_send_panel_cmd(PWCTR4);	/* 0xC3 */
-	ST7735_send_panel_cmd(PWCTR5);	/* 0xC4 */
-
-    ST7735_send_sys_cmd(VMCTR1);	/* 0xC5*/
-
-	ST7735_send_sys_cmd(INVOFF);	/* 0x20 */
-
-	ST7735_send_sys_cmd(MADCTL);	/* 0x36*/
-
-	ST7735_send_sys_cmd(COLMOD);	/* 0x3A */
-
-	ST7735_send_panel_cmd(CASET);	/* 0xE0 */
-	ST7735_send_panel_cmd(RASET);	/* 0xE1 */
-	ST7735_send_panel_cmd(GAMCTRP1);	/* 0xE0 */
-	ST7735_send_panel_cmd(GAMCTRN1);	/* 0xE1 */
-
-	ST7735_send_sys_cmd(NORON);		/* */
-	Delay_ms(10);
-
-	ST7735_send_sys_cmd(DISPON);	/* */
-	Delay_ms(100);
-
-	//CS_H();	/* end of transmission */
-}
-
 void ST7735_turns_display(uint8_t power)
 {
 	//CS_L();	/* start of transmission */
@@ -513,4 +376,149 @@ void ST7735_draw_v_line(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
 void ST7735_clear(uint16_t color)
 {
     ST7735_draw_filled_rectangle(0, 0, (LCD_SCREEN_W - 1), (LCD_SCREEN_H - 1), color);
+}
+
+/**
+ *
+ */
+static void ST7735_sys_cmd_init(void)
+{
+    /* Software Reset */
+    _lcd_sys_cmd[SYS_CMD_SWRESET].cmd = 0x01;
+    _lcd_sys_cmd[SYS_CMD_SWRESET].nrOfByte = 0;
+    _lcd_sys_cmd[SYS_CMD_SWRESET].data = NULL;
+
+    /* Sleep ON */
+    _lcd_sys_cmd[SLPIN].cmd = 0x10;
+    _lcd_sys_cmd[SLPOUT].nrOfByte = 0;
+    _lcd_sys_cmd[SLPIN].data = NULL;
+
+    /* Sleep Out & Booster On */
+    _lcd_sys_cmd[SLPOUT].cmd = 0x11;
+    _lcd_sys_cmd[SLPOUT].nrOfByte = 0;
+    _lcd_sys_cmd[SLPOUT].data = NULL;
+
+    /* Memory Data Access Control */
+    _lcd_sys_cmd[MADCTL].cmd = 0x36;
+    _lcd_sys_cmd[MADCTL].nrOfByte = 1;
+    _lcd_sys_cmd[MADCTL].data = MAD_CTL_buffer;
+
+    /* Column Address Set */
+    _lcd_sys_cmd[CASET].cmd = 0x2A;
+    _lcd_sys_cmd[CASET].nrOfByte = 4;
+    _lcd_sys_cmd[CASET].data = CASET_buffer_buffer;
+
+    /* Row Address Set */
+    _lcd_sys_cmd[RASET].cmd = 0x2B;
+    _lcd_sys_cmd[RASET].nrOfByte = 4;
+    _lcd_sys_cmd[RASET].data = RASET_buffer_buffer;
+
+    /* Display ON */
+    _lcd_sys_cmd[DISPON].cmd = 0x29;
+    _lcd_sys_cmd[DISPON].nrOfByte = 0;
+    _lcd_sys_cmd[DISPON].data = NULL;
+
+    /* Display OFF */
+    _lcd_sys_cmd[DISPOFF].cmd = 0x28;
+    _lcd_sys_cmd[DISPOFF].nrOfByte = 0;
+    _lcd_sys_cmd[DISPOFF].data = NULL;
+
+    /* Interface Pixel Format */
+    _lcd_sys_cmd[COLMOD].cmd = 0x3A;
+    _lcd_sys_cmd[COLMOD].nrOfByte = 1;
+    _lcd_sys_cmd[COLMOD].data = COLMOD_buffer_buffer;
+
+    /* Display Inversion Off (Normal) */
+    _lcd_sys_cmd[INVOFF].cmd = 0x20;
+    _lcd_sys_cmd[INVOFF].nrOfByte = 0;
+    _lcd_sys_cmd[INVOFF].data = NULL;
+
+
+    /* VCOM Control 1 */
+    _lcd_sys_cmd[NORON].cmd = 0x13;
+    _lcd_sys_cmd[NORON].nrOfByte = 0;
+    _lcd_sys_cmd[NORON].data = NULL;
+
+    /* VCOM Control 1 */
+    _lcd_sys_cmd[GAMSET].cmd = 0x26;
+    _lcd_sys_cmd[GAMSET].nrOfByte = 1;
+    _lcd_sys_cmd[GAMSET].data = GAMSET_buffer_buffer;
+
+    /* Memory Write */
+    _lcd_sys_cmd[RAMWR].cmd = 0x2C;
+    _lcd_sys_cmd[RAMWR].nrOfByte = 0;
+    _lcd_sys_cmd[RAMWR].data = NULL;
+
+    /* IDLE MODE OFF */
+    _lcd_sys_cmd[IDMOFF].cmd = 0x38;
+    _lcd_sys_cmd[IDMOFF].nrOfByte = 0;
+    _lcd_sys_cmd[IDMOFF].data = NULL;
+
+    /* IDLE MODE ON */
+    _lcd_sys_cmd[IDMON].cmd = 0x39;
+    _lcd_sys_cmd[IDMON].nrOfByte = 0;
+    _lcd_sys_cmd[IDMON].data = NULL;
+
+
+}
+
+/**
+ *
+ */
+static void ST7735_panel_cmd_init(void)
+{
+    /* In Normal Mode (Full Colors) */
+    _lcd_panel_cmd[FRMCTR1].cmd = 0xB1;
+    _lcd_panel_cmd[FRMCTR1].nrOfByte = 3;
+    _lcd_panel_cmd[FRMCTR1].data = FRMCTR1_buffer;
+
+    /* In Idle Mode (8-colors) */
+    _lcd_panel_cmd[FRMCTR2].cmd = 0xB2;
+    _lcd_panel_cmd[FRMCTR2].nrOfByte = 3;
+    _lcd_panel_cmd[FRMCTR2].data = FRMCTR2_buffer;
+
+    /* In Partial Mode + FullColors */
+    _lcd_panel_cmd[FRMCTR3].cmd = 0xB3;
+    _lcd_panel_cmd[FRMCTR3].nrOfByte = 6;
+    _lcd_panel_cmd[FRMCTR3].data = FRMCTR3_buffer;
+
+    /*  Power Control Setting */
+    _lcd_panel_cmd[PWCTR1].cmd = 0xC0;
+    _lcd_panel_cmd[PWCTR1].nrOfByte = 3;
+    _lcd_panel_cmd[PWCTR1].data = PWCTR1_buffer;
+
+    /* Power Control Setting */
+    _lcd_panel_cmd[PWCTR2].cmd = 0xC1;
+    _lcd_panel_cmd[PWCTR2].nrOfByte = 1;
+    _lcd_panel_cmd[PWCTR2].data = PWCTR2_buffer;
+
+    _lcd_panel_cmd[PWCTR3].cmd = 0xC2;
+    _lcd_panel_cmd[PWCTR3].nrOfByte = 2;
+    _lcd_panel_cmd[PWCTR3].data = PWCTR3_buffer;
+
+    _lcd_panel_cmd[PWCTR4].cmd = 0xC3;
+    _lcd_panel_cmd[PWCTR4].nrOfByte = 2;
+    _lcd_panel_cmd[PWCTR4].data = PWCTR4_buffer;
+
+    _lcd_panel_cmd[PWCTR5].cmd = 0xC4;
+    _lcd_panel_cmd[PWCTR5].nrOfByte = 2;
+    _lcd_panel_cmd[PWCTR5].data = PWCTR5_buffer;
+
+    /* VCOM Control 1 */
+    _lcd_panel_cmd[VMCTR1].cmd = 0xC5;
+    _lcd_panel_cmd[VMCTR1].nrOfByte = 1;
+    _lcd_panel_cmd[VMCTR1].data = VMCTR1_buffer;
+
+    _lcd_panel_cmd[GAMCTRP1].cmd = 0xE0;
+    _lcd_panel_cmd[GAMCTRP1].nrOfByte = 16;
+    _lcd_panel_cmd[GAMCTRP1].data = GAMCTRP1_buffer;
+
+    _lcd_panel_cmd[GAMCTRN1].cmd = 0xE1;
+    _lcd_panel_cmd[GAMCTRN1].nrOfByte = 16;
+    _lcd_panel_cmd[GAMCTRN1].data = GAMCTRN1_buffer;
+
+    /* VCOM Control 1 */
+    _lcd_panel_cmd[INVCTR].cmd = 0xB4;
+    _lcd_panel_cmd[INVCTR].nrOfByte = 1;
+    _lcd_panel_cmd[INVCTR].data = INVCTR_buffer;
 }

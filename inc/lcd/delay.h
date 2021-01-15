@@ -1,9 +1,9 @@
-/*
+/**
  *  @file  : delay.h
  *	
  *  @brief	
  *
- *  @author: franc
+ *  @author: Francesco Varani
  *  @date  : 11 nov 2020
  */
 

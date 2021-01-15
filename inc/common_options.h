@@ -10,7 +10,7 @@
 #ifndef INC_COMMON_OPTIONS_H_
 #define INC_COMMON_OPTIONS_H_
 
-#define DEBUG_KEYS_PRINT    (0u)
+#define DEBUG_KEYS_PRINT    (1u)
 
 
 

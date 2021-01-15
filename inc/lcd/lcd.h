@@ -23,7 +23,7 @@ extern void ST7735_write(uint8_t data);
 
 extern uint16_t RGB565(uint8_t R,uint8_t G,uint8_t B);
 
-extern void ST7735_Init(void);
+//extern void ST7735_Init(void);
 extern void ST7735_AddrSet(uint16_t XS, uint16_t YS, uint16_t XE, uint16_t YE);
 extern void ST7735_Clear(uint16_t color);
 
