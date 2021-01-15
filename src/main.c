@@ -26,22 +26,28 @@
 
 #include "hardware.h"
 #include "task_handler.h"
+#include "lib_uart.h"
 
 #include "stm32f4xx.h"
+
+#include <string.h>
 
 unsigned long ulRunTimeStatsClock;
 
 int main(void)
 {
-
 	/* init peripherals */
 	Hardware_Init();
+	UART_lib_sendData("Tetris - HW initialized\n", strlen("Tetris - HW initialized\n"));
 
 	/* creates all the tasks */
 	uiTaskhandler_CreateAllTasks();
+	UART_lib_sendData("Tetris - Tasks created\n", strlen("Tetris - Tasks created\n"));
 
 	/* Start the scheduler. */
 	vTaskStartScheduler();
+
+	UART_lib_sendData("Tetris - Task scheduler is DEAD\n", strlen("Tetris - Task scheduler is DEAD\n"));
 
 	while(1)
 	{

@@ -18,6 +18,12 @@
 #include <stdint.h>
 #include "keys_handler.h"
 
+#include "common_options.h"
+
+#if DEBUG_KEYS_PRINT == 1
+#include "lib_uart.h"
+#endif
+
 /**
  * here we:
  * - initializes HW for keyboard
