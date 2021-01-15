@@ -33,7 +33,12 @@ unsigned long ulRunTimeStatsClock;
 int main(void)
 {
 
+	/* init peripherals */
+	Hardware_Init();
+
+	/* creates all the tasks */
 	uiTaskhandler_CreateAllTasks();
+
 	/* Start the scheduler. */
 	vTaskStartScheduler();
 

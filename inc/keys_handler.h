@@ -21,6 +21,7 @@ typedef enum
 	eKey_LAST,
 } eKeyboard_key;
 
+extern void Keys_HW_Init(void);
 extern void vKeysHandlerTask(void* pvParameters);
 
 #endif /* INC_KEYS_HANDLER_H_ */

@@ -37,10 +37,11 @@ typedef struct
 }t_keyboard;
 
 /* -------------------------------------------------------------------------------------------------------------------- */
-static void keyboard_Init(void);
 static void keyboard_SetFunctionality(void);
 static void keyboard_HW_init(void);
+
 /* -------------------------------------------------------------------------------------------------------------------- */
+static uint8_t keys_are_init = RESET;
 __IO uint16_t _keyPressedGlobal;
 __IO uint16_t _notifyKeyPressed;
 static t_keyboard keyboard[eKey_LAST];
@@ -56,44 +57,52 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 	TickType_t 			loop_start_tick = 0;
 	uint8_t				i;
 
-	keyboard_Init();
-	loop_start_tick = xTaskGetTickCount();
-
-	while(1)	/* live forever */
+	if (keys_are_init == SET)
 	{
-		for( i = 0; i < eKey_LAST; i++)
+		loop_start_tick = xTaskGetTickCount();
+
+		while(1)	/* live forever */
 		{
-			if (_keyPressedGlobal & (1<<i))
+			for( i = 0; i < eKey_LAST; i++)
 			{
-				counter[i]++;
-				if (counter[i] > KEYS_PRESSED_THRESHOLD)
+				if (_keyPressedGlobal & (1<<i))
 				{
-					_notifyKeyPressed |= (1<<i);	/* set it */
+					counter[i]++;
+					if (counter[i] > KEYS_PRESSED_THRESHOLD)
+					{
+						_notifyKeyPressed |= (1<<i);	/* set it */
+					}
+				}
+				else
+				{
+					counter[i] = 0;
+					_notifyKeyPressed &= (~(1<<i));	/*	clear it */
 				}
 			}
-			else
-			{
-				counter[i] = 0;
-				_notifyKeyPressed &= (~(1<<i));	/*	clear it */
-			}
+			vTaskDelayUntil (&loop_start_tick, KEYS_HANDLER_PERIOD);
 		}
-		vTaskDelayUntil (&loop_start_tick, KEYS_HANDLER_PERIOD);
+	}
+	else
+	{
+		/* error message ? */
 	}
 }
 
-/* -------------------------------------------------------------------------------------------------------------------- */
 /**
  *
  */
-static void keyboard_Init(void)
+void Keys_HW_Init(void)
 {
 	_keyPressedGlobal = 0;
 	_notifyKeyPressed = 0;
 
 	keyboard_SetFunctionality();
 	keyboard_HW_init();
+
+	keys_are_init = SET;
 }
 
+/* -------------------------------------------------------------------------------------------------------------------- */
 
 /**
  * @brief init the structure that holds the info about handled keys.

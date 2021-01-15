@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/hardware.c \
 ../src/keys_handler.c \
 ../src/main.c \
 ../src/spi.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 ../src/tetris_handler.c 
 
 OBJS += \
+./src/hardware.o \
 ./src/keys_handler.o \
 ./src/main.o \
 ./src/spi.o \
@@ -22,6 +24,7 @@ OBJS += \
 ./src/tetris_handler.o 
 
 C_DEPS += \
+./src/hardware.d \
 ./src/keys_handler.d \
 ./src/main.d \
 ./src/spi.d \
