@@ -73,7 +73,8 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 		{
 			for( i = 0; i < eKey_LAST; i++)
 			{
-				if (_keyPressedGlobal & (1<<i))
+				if ((_keyPressedGlobal & (1<<i)) /* pressed */
+				     && (((_notifyKeyPressed ) & (1<<i) ) == 0) ) /* and not notified */
 				{
 					counter[i]++;
 					if (counter[i] > KEYS_PRESSED_THRESHOLD)
@@ -81,18 +82,19 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 						_notifyKeyPressed |= (1<<i);	/* set it */
 #if DEBUG_KEYS_PRINT == 1
 						char str_debug[100] = "0";
-						snprintf(str_debug, sizeof(str_debug), "Keys handler: pressed %d", i);
+						snprintf(str_debug, sizeof(str_debug), "Keys handler: pressed %d\n", i);
 						UART_lib_sendData(str_debug, strlen(str_debug));
 #endif
 					}
 				}
-				else
+				else if ( ( (_notifyKeyPressed ) & (1<<i))  /* not pressed but was notified ... */
+				                && ( ((_keyPressedGlobal ) & (1<<i) ) == 0))
 				{
 					counter[i] = 0;
 					_notifyKeyPressed &= (~(1<<i));	/*	clear it */
 #if DEBUG_KEYS_PRINT == 1
                         char str_debug[100] = "0";
-                        snprintf(str_debug, sizeof(str_debug), "Keys handler: released %d", i);
+                        snprintf(str_debug, sizeof(str_debug), "Keys handler: released %d\n", i);
                         UART_lib_sendData(str_debug, strlen(str_debug));
 #endif
 				}
@@ -105,7 +107,7 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 		/* error message ? */
 #if DEBUG_KEYS_PRINT == 1
         char str_debug[100] = "0";
-        snprintf(str_debug, sizeof(str_debug), "Keys handler: hw not initialized");
+        snprintf(str_debug, sizeof(str_debug), "Keys handler: hw not initialized\n");
         UART_lib_sendData(str_debug, strlen(str_debug));
 #endif
 	}
