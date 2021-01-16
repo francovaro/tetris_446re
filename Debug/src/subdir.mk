@@ -6,6 +6,7 @@
 C_SRCS += \
 ../src/hardware.c \
 ../src/keys_handler.c \
+../src/log_event.c \
 ../src/main.c \
 ../src/spi.c \
 ../src/syscalls.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 OBJS += \
 ./src/hardware.o \
 ./src/keys_handler.o \
+./src/log_event.o \
 ./src/main.o \
 ./src/spi.o \
 ./src/syscalls.o \
@@ -24,6 +26,7 @@ OBJS += \
 C_DEPS += \
 ./src/hardware.d \
 ./src/keys_handler.d \
+./src/log_event.d \
 ./src/main.d \
 ./src/spi.d \
 ./src/syscalls.d \

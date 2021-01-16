@@ -11,7 +11,7 @@
 #define INC_COMMON_OPTIONS_H_
 
 #define DEBUG_KEYS_PRINT    (1u)
-
+#define DEBUG_GAME_ENGINE   (1u)
 
 
 #endif /* INC_COMMON_OPTIONS_H_ */

@@ -15,8 +15,9 @@
 /* tasks include */
 #include "task_handler.h"
 #include "keys_handler.h"
+#include "game/game_engine.h"
 
-#define TOTAL_TASK 	(1u)
+#define TOTAL_TASK 	(2u)
 
 static TaskHandle_t * taskArray[TOTAL_TASK];
 
@@ -34,6 +35,13 @@ uint8_t uiTaskhandler_CreateAllTasks(void)
 			NULL, 			/* param */
 			3, 				/* prio */
 			taskArray[0] );			/* handler */
+
+    xTaskCreate( vGameEngineTask,  /* function*/
+            "GameEngine Task",     /* name */
+            1000,           /* stack size */
+            NULL,           /* param */
+            3,              /* prio */
+            taskArray[1] );         /* handler */
 
 	return retVal;
 }

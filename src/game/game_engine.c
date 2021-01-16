@@ -14,6 +14,12 @@
 
 #include "common_options.h"
 
+#if DEBUG_KEYS_PRINT == 1
+#include <string.h>
+#include <stdio.h>
+#include "lib_uart.h"
+#endif
+/* -------------------------------------------------------------------------------------------------------------------- */
 typedef enum
 {
     e_game_status_splash,
@@ -26,8 +32,9 @@ typedef enum
 #define GAME_ENGINE_PERIOD         (250u)
 
 
-static t_game_status _actual_game_status;
+static t_game_status _actual_game_status = e_game_status_none;
 
+/* -------------------------------------------------------------------------------------------------------------------- */
 /**
  *
  */
@@ -56,6 +63,10 @@ portTASK_FUNCTION(vGameEngineTask, pvParameters)
             {
                 next_game_status = e_game_status_playing;
                 _time_increment = GAME_ENGINE_PERIOD * 20;
+                /*
+                 * TODO
+                 * draw the nice splash screen
+                 */
             }
             break;
             case e_game_status_playing:
@@ -67,14 +78,24 @@ portTASK_FUNCTION(vGameEngineTask, pvParameters)
             {
                 next_game_status = e_game_status_playing;
                 _time_increment = GAME_ENGINE_PERIOD * 20;
+                /*
+                 * TODO
+                 * draw the end game screen
+                 */
             }
             break;
             default:
             case e_game_status_none:
             {
+#if DEBUG_GAME_ENGINE == 1
+                char str_debug[100] = "0";
+                snprintf(str_debug, sizeof(str_debug), "GameEngine not initialized\n");
+                UART_lib_sendData(str_debug, strlen(str_debug));
+#endif
                 /*
                  * ops
                  */
+                return;
             }
             break;
         }

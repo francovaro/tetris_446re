@@ -11,6 +11,7 @@
 "src/game/tetris_handler.o"
 "src/hardware.o"
 "src/keys_handler.o"
+"src/log_event.o"
 "src/main.o"
 "src/spi.o"
 "src/syscalls.o"
