@@ -13,10 +13,12 @@
 #include "spi.h"
 #include "lcd\delay.h"
 
-uint8_t _lcd_screen_w;
-uint8_t _lcd_screen_h;
+#define NULL    ((void*)0)
 
-#define NULL 0;
+static uint8_t _lcd_screen_w;
+static uint8_t _lcd_screen_h;
+
+
 
 static tLCD_cmd _lcd_sys_cmd[e_syscmd_max];
 static tLCD_cmd _lcd_panel_cmd[e_panelcmd_max];
@@ -94,6 +96,9 @@ static uint8_t MAD_CTL_buffer[1] = {0x00};	/* was 0 */
 
 static void ST7735_sys_cmd_init(void);
 static void ST7735_panel_cmd_init(void);
+static void ST7735_write(uint8_t data);
+static void ST7735_cmd(uint8_t cmd);
+static void ST7735_data(uint8_t cmd);
 
 /**
  * @brief Initializes command array and the LCD.
@@ -521,4 +526,37 @@ static void ST7735_panel_cmd_init(void)
     _lcd_panel_cmd[INVCTR].cmd = 0xB4;
     _lcd_panel_cmd[INVCTR].nrOfByte = 1;
     _lcd_panel_cmd[INVCTR].data = INVCTR_buffer;
+}
+
+
+/**
+ *
+ * @param data
+ */
+static void ST7735_write(uint8_t data)
+{
+    while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
+    SPI_I2S_SendData(SPIx, data);
+}
+
+/**
+ *
+ * @param cmd
+ */
+void ST7735_cmd(uint8_t cmd)
+{
+    A0_L();
+    ST7735_write(cmd);
+    while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY) == SET);
+}
+
+/**
+ *
+ * @param data
+ */
+void ST7735_data(uint8_t data)
+{
+    A0_H();
+    ST7735_write(data);
+    while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY) == SET);
 }
