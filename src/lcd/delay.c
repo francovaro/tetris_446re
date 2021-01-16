@@ -25,13 +25,13 @@ void Delay_init(void)
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
     RCC_GetClocksFreq(&RCC_ClocksStatus);
-    uint16_t prescaler = ((RCC_ClocksStatus.PCLK1_Frequency*2)) / 1000000000  - 1; //1 tick = 1ns
+    uint16_t prescaler = ((RCC_ClocksStatus.PCLK1_Frequency*2)) / 1000000  - 1; //1 tick = us
 
     TIM_TimeBaseStructInit(&TIM_TimeBaseInitStruct);
 
     TIM_TimeBaseInitStruct.TIM_Prescaler = prescaler;
     TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseInitStruct.TIM_Period = 1000;                       /* period => 1ns*1000 = 1us*/
+    TIM_TimeBaseInitStruct.TIM_Period = 1;                       /* period => 1ns*1000 = 1us*/
     TIM_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1;
     TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStruct);    /* TIM 2 */
 
@@ -40,6 +40,8 @@ void Delay_init(void)
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
+
+    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);              /* triggers when it reload */
 }
 
 /**
@@ -48,15 +50,11 @@ void Delay_init(void)
  */
 void Delay_ms(uint16_t delay)
 {
-    TIM_Cmd(TIM2, ENABLE);
-
 	do
 	{
 		Delay_us(1000);
 		delay--;
 	}while(delay);
-
-	TIM_Cmd(TIM2, DISABLE);
 }
 
 /**
@@ -65,10 +63,9 @@ void Delay_ms(uint16_t delay)
  */
 void Delay_us(uint16_t delay)
 {
-    TIM_Cmd(TIM2, ENABLE);
-
 	_req_delay_us = delay;
 
+	TIM_Cmd(TIM2, ENABLE);
 	while(_req_delay_us);
 
 	TIM_Cmd(TIM2, DISABLE);
@@ -87,6 +84,6 @@ void TIM2_IRQHandler(void)
             _req_delay_us--;
         }
         TIM2->CR1 |= TIM_CR1_CEN;
-        TIM_ClearITPendingBit(TIM2, TIM_IT_CC1);
+        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
     }
 }
