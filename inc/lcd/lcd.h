@@ -13,13 +13,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
 #include "spi.h"
-#include "lcd\st7735_cmd.h"
 
 /* Screen resolution */
 #define LCD_SCREEN_W         128
 #define LCD_SCREEN_H         128
 
-/* LCD definition. Uncomment the one in sue */
+/* LCD definition. Uncomment the one in use */
 #define ST7735
 
 extern void Lcd_Init(void);

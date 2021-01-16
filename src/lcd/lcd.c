@@ -14,11 +14,19 @@
 #include "lcd\st7735_cmd.h"
 
 /**
- *
+ * @brief call Init for the used LCD
  */
 void Lcd_Init(void)
 {
 #ifdef ST7735
     ST7735_init_with_commands();
 #endif
+}
+
+/**
+ * @brief
+ */
+void Lcd_Splash_Screen(void)
+{
+
 }

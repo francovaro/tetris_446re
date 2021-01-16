@@ -10,6 +10,7 @@ RM := rm -rf
 -include sources.mk
 -include startup/subdir.mk
 -include src/lcd/subdir.mk
+-include src/game/subdir.mk
 -include src/FreeRTOS/portable/MemMang/subdir.mk
 -include src/FreeRTOS/portable/GCC/ARM_CM4F/subdir.mk
 -include src/FreeRTOS/subdir.mk

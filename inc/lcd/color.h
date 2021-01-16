@@ -10,7 +10,8 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-
+/* Color definition RGB 565 */
+/* http://www.barth-dev.de/online/rgb565-color-picker/ */
 #define COLOR_WHITE      	0xFFFF
 #define COLOR_BLACK      	0x0000
 #define COLOR_BLUE       	0x001F
@@ -29,15 +30,21 @@
 #define COLOR_GRAY1       	0x8410
 #define COLOR_GRAY2       	0x4208
 
+#define COLOR_ORANGE       0xFD60
+#define COLOR_LIGHTGREEN   0x07EF
+
 #define COLOR_DARKBLUE      0X01CF
 #define COLOR_LIGHTBLUE     0X7D7C
 #define COLOR_GRAYBLUE      0X5458
 
-#define COLOR_LIGHTGREEN    0X841F
+//#define COLOR_LIGHTGREEN    0X841F
 #define COLOR_LIGHTGRAY     0XEF5B
 #define COLOR_LGRAY 		0XC618
+#define COLOR_PURPLE        0xD09D
 
 #define COLOR_LGRAYBLUE     0XA651
 #define COLOR_LBBLUE        0X2B12
+
+#define GET_RGB_565(r, g, b) (((r & 0xF8) << 8) | ((g & 0xFC) << 3) | ((b & 0xF8) >> 3))
 
 #endif /* COLOR_H_ */

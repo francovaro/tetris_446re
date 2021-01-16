@@ -13,6 +13,9 @@
 #include "lcd\delay.h"
 #include "lcd\lcd.h"
 
+/**
+ * @brief Call the init for all the different peripheral handled.
+ */
 void Hardware_Init(void)
 {
     Keys_HW_Init();

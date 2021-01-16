@@ -377,6 +377,10 @@ void ST7735_draw_v_line(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
     ST7735_draw_filled_rectangle(x, y0, x, y1, color);
 }
 
+/**
+ *
+ * @param color
+ */
 void ST7735_clear(uint16_t color)
 {
     ST7735_draw_filled_rectangle(0, 0, (LCD_SCREEN_W - 1), (LCD_SCREEN_H - 1), color);

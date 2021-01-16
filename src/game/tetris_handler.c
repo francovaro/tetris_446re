@@ -3,12 +3,14 @@
  *	
  *  @brief	
  *
- *  @author: franc
+ *  @author: Francesco Varani
  *  @date  : 14 gen 2021
  */
 
 #include "tetris_handler.h"
 #include <stdint.h>
+
+#include "lcd\color.h"
 
 #define		HEIGTH_IN_PIXEL		(128u)
 #define		LENGTH_IN_PIXEL		(128u)
@@ -16,18 +18,6 @@
 #define		AREA_HEIGTH			(10u)
 #define		AREA_LENGTH			(30u)
 #define		PIXEL_PER_SQUARE	(1u)
-
-/*
- * TODO
- * maybe move color definition, and define them...
- */
-#define COLOR_CYAN		(0x0000)
-#define COLOR_BLUE		(0x0000)
-#define COLOR_ORANGE	(0x0000)
-#define COLOR_YELLOW	(0x0000)
-#define COLOR_GREEN		(0x0000)
-#define COLOR_PURPLE	(0x0000)
-#define COLOR_RED		(0x0000)
 
 typedef enum
 {
@@ -102,6 +92,7 @@ typedef struct
 	uint8_t				x;
 	uint8_t				y;
 }t_position;
+
 /**
  *
  */

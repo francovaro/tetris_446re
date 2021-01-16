@@ -10,8 +10,7 @@ C_SRCS += \
 ../src/spi.c \
 ../src/syscalls.c \
 ../src/system_stm32f4xx.c \
-../src/task_handler.c \
-../src/tetris_handler.c 
+../src/task_handler.c 
 
 OBJS += \
 ./src/hardware.o \
@@ -20,8 +19,7 @@ OBJS += \
 ./src/spi.o \
 ./src/syscalls.o \
 ./src/system_stm32f4xx.o \
-./src/task_handler.o \
-./src/tetris_handler.o 
+./src/task_handler.o 
 
 C_DEPS += \
 ./src/hardware.d \
@@ -30,8 +28,7 @@ C_DEPS += \
 ./src/spi.d \
 ./src/syscalls.d \
 ./src/system_stm32f4xx.d \
-./src/task_handler.d \
-./src/tetris_handler.d 
+./src/task_handler.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

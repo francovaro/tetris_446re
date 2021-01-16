@@ -18,6 +18,7 @@ SUBDIRS := \
 src/FreeRTOS \
 src/FreeRTOS/portable/GCC/ARM_CM4F \
 src/FreeRTOS/portable/MemMang \
+src/game \
 src \
 src/lcd \
 startup \
