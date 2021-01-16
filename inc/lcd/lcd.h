@@ -19,7 +19,9 @@
 #define LCD_SCREEN_W         128
 #define LCD_SCREEN_H         128
 
-extern uint16_t Lcd_Get_RGB565(uint8_t R,uint8_t G,uint8_t B);
-extern void Lcd_reset(void);
+/* LCD definition. Uncomment the one in sue */
+#define ST7735
+
+extern void Lcd_Init(void);
 
 #endif /* LCD_H_ */

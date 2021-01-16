@@ -106,9 +106,10 @@ typedef enum
 	e_panelcmd_max
 }tST7735_panel_cmd;
 
+extern void ST7735_init_with_commands(void);
+
 extern void ST7735_send_sys_cmd(tST7735_system_cmd sysCmd);
 extern void ST7735_send_panel_cmd(tST7735_panel_cmd panelCmd);
-extern void ST7735_init_with_commands(void);
 extern void ST7735_turns_display(uint8_t power);
 extern void ST7735_set_orientation(tLCD_orientation orientation);
 extern void ST7735_set_windows(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);

@@ -10,8 +10,8 @@
 #include "keys_handler.h"
 #include "spi.h"
 #include "lib_uart.h"
-#include "lcd/delay.h"
-#include "lcd\st7735_cmd.h"
+#include "lcd\delay.h"
+#include "lcd\lcd.h"
 
 void Hardware_Init(void)
 {
@@ -20,5 +20,5 @@ void Hardware_Init(void)
     UART_lib_config(e_UART_2, DISABLE, 0, 0);
 
     Delay_init();
-    ST7735_init_with_commands();
+    Lcd_Init();
 }

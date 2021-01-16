@@ -18,8 +18,6 @@
 static uint8_t _lcd_screen_w;
 static uint8_t _lcd_screen_h;
 
-
-
 static tLCD_cmd _lcd_sys_cmd[e_syscmd_max];
 static tLCD_cmd _lcd_panel_cmd[e_panelcmd_max];
 
@@ -99,6 +97,7 @@ static void ST7735_panel_cmd_init(void);
 static void ST7735_write(uint8_t data);
 static void ST7735_cmd(uint8_t cmd);
 static void ST7735_data(uint8_t cmd);
+static void ST7735_Reset(void);
 
 /**
  * @brief Initializes command array and the LCD.
@@ -111,7 +110,7 @@ void ST7735_init_with_commands(void)
     ST7735_sys_cmd_init();
     ST7735_panel_cmd_init();
     /* Reset Sequence START*/
-    Lcd_reset();
+    ST7735_Reset();
 
     _lcd_screen_w = LCD_SCREEN_W;
     _lcd_screen_h = LCD_SCREEN_H;
@@ -543,7 +542,7 @@ static void ST7735_write(uint8_t data)
  *
  * @param cmd
  */
-void ST7735_cmd(uint8_t cmd)
+static void ST7735_cmd(uint8_t cmd)
 {
     A0_L();
     ST7735_write(cmd);
@@ -554,9 +553,22 @@ void ST7735_cmd(uint8_t cmd)
  *
  * @param data
  */
-void ST7735_data(uint8_t data)
+static void ST7735_data(uint8_t data)
 {
     A0_H();
     ST7735_write(data);
     while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY) == SET);
+}
+
+/**
+ *@brief
+ */
+static void ST7735_Reset(void)
+{
+    RST_H();
+    Delay_ms(100);
+    RST_L();
+    Delay_ms(200);
+    RST_H();
+    Delay_ms(100);
 }
