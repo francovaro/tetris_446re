@@ -26,7 +26,9 @@ void Lcd_Init(void)
 /**
  * @brief
  */
-void Lcd_Splash_Screen(void)
+void Lcd_clear_screen(uint16_t color)
 {
-
+#ifdef ST7735
+    ST7735_clear(color);
+#endif
 }

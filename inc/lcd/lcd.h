@@ -1,9 +1,9 @@
-/*
+/**
  *  @file  : lcd.h
  *	
- *  @brief	based on LonelyWolf repository https://github.com/LonelyWolf/stm32/tree/master/ST7735
+ *  @brief
  *
- *  @author: franc
+ *  @author: Francesco Varani
  *  @date  : 25 nov 2019
  */
 
@@ -22,5 +22,6 @@
 #define ST7735
 
 extern void Lcd_Init(void);
+extern void Lcd_clear_screen(uint16_t color);
 
 #endif /* LCD_H_ */
