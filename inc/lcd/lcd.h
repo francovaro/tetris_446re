@@ -11,17 +11,21 @@
 #define LCD_H_
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
-#include "spi.h"
+#include "game\tetris_handler.h"
+
+#define ST7735
 
 /* Screen resolution */
-#define LCD_SCREEN_W         128
-#define LCD_SCREEN_H         128
-
+#ifdef ST7735
+#define LCD_SCREEN_W         (128u)
+#define LCD_SCREEN_H         (128u)
+#endif
 /* LCD definition. Uncomment the one in use */
-#define ST7735
+
 
 extern void Lcd_Init(void);
 extern void Lcd_clear_screen(uint16_t color);
+extern void Lcd_print_string(const char* string, uint16_t n_byte, uint8_t x, uint8_t y);
+extern void Lcd_print_piece(s_piece* piece, uint8_t x, uint8_t y);
 
 #endif /* LCD_H_ */

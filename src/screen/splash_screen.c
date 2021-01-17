@@ -16,5 +16,5 @@
  */
 void Splash_Screen_Print(void)
 {
-    Lcd_clear_screen(COLOR_WHITE);
+    Lcd_clear_screen(COLOR_RED);
 }

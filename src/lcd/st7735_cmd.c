@@ -13,7 +13,9 @@
 #include "spi.h"
 #include "lcd\delay.h"
 
+#ifndef NULL
 #define NULL    ((void*)0)
+#endif
 
 static uint8_t _lcd_screen_w;
 static uint8_t _lcd_screen_h;
