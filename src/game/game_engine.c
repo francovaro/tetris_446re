@@ -6,18 +6,20 @@
  *  @author: Francesco Varani
  *  @date  : 16 gen 2021
  */
+
 /* FreeRTOS include */
 #include "FreeRTOS.h"
 #include "task.h"
 
 #include "game\game_engine.h"
+#include "screen\screen.h"
 
 #include "common_options.h"
 
 #if DEBUG_KEYS_PRINT == 1
 #include <string.h>
 #include <stdio.h>
-#include "lib_uart.h"
+#include "log_event.h"
 #endif
 /* -------------------------------------------------------------------------------------------------------------------- */
 typedef enum
@@ -67,11 +69,15 @@ portTASK_FUNCTION(vGameEngineTask, pvParameters)
                  * TODO
                  * draw the nice splash screen
                  */
+                Screen_Print(e_screen_splash_screen);
             }
             break;
             case e_game_status_playing:
             {
                 _time_increment = GAME_ENGINE_PERIOD;
+                /*
+                 * TODO
+                 */
             }
             break;
             case e_game_status_game_over:
@@ -82,15 +88,15 @@ portTASK_FUNCTION(vGameEngineTask, pvParameters)
                  * TODO
                  * draw the end game screen
                  */
+                Screen_Print(e_screen_game_over);
             }
             break;
             default:
             case e_game_status_none:
             {
 #if DEBUG_GAME_ENGINE == 1
-                char str_debug[100] = "0";
-                snprintf(str_debug, sizeof(str_debug), "GameEngine not initialized\n");
-                UART_lib_sendData(str_debug, strlen(str_debug));
+                char str_debug[100] = "GameEngine not initialized\n";
+                Log_message(str_debug, strlen(str_debug), e_task_game_engine);
 #endif
                 /*
                  * ops

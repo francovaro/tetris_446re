@@ -21,5 +21,6 @@ src/FreeRTOS/portable/MemMang \
 src/game \
 src \
 src/lcd \
+src/screen \
 startup \
 

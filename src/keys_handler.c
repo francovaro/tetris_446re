@@ -23,7 +23,7 @@
 #if DEBUG_KEYS_PRINT == 1
 #include <string.h>
 #include <stdio.h>
-#include "lib_uart.h"
+#include "log_event.h"
 #endif
 
 /**
@@ -83,7 +83,7 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 #if DEBUG_KEYS_PRINT == 1
 						char str_debug[100] = "0";
 						snprintf(str_debug, sizeof(str_debug), "Keys handler: pressed %d\n", i);
-						UART_lib_sendData(str_debug, strlen(str_debug));
+						Log_message(str_debug, strlen(str_debug), e_task_keys_handler);
 #endif
 					}
 				}
@@ -95,7 +95,7 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 #if DEBUG_KEYS_PRINT == 1
                         char str_debug[100] = "0";
                         snprintf(str_debug, sizeof(str_debug), "Keys handler: released %d\n", i);
-                        UART_lib_sendData(str_debug, strlen(str_debug));
+                        Log_message(str_debug, strlen(str_debug), e_task_keys_handler);
 #endif
 				}
 			}
@@ -106,9 +106,8 @@ portTASK_FUNCTION(vKeysHandlerTask, pvParameters)
 	{
 		/* error message ? */
 #if DEBUG_KEYS_PRINT == 1
-        char str_debug[100] = "0";
-        snprintf(str_debug, sizeof(str_debug), "Keys handler: hw not initialized\n");
-        UART_lib_sendData(str_debug, strlen(str_debug));
+        char str_debug[100] = "Keys handler: hw not initialized\n";
+        Log_message(str_debug, strlen(str_debug), e_task_keys_handler);
 #endif
 	}
 }
