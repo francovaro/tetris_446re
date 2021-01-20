@@ -13,15 +13,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "game\tetris_handler.h"
 
+/* LCD definition. Uncomment the one in use */
 #define ST7735
+//#define LCD_NO_SE_QUE
 
 /* Screen resolution */
 #ifdef ST7735
 #define LCD_SCREEN_W         (128u)
 #define LCD_SCREEN_H         (128u)
 #endif
-/* LCD definition. Uncomment the one in use */
-
 
 extern void Lcd_Init(void);
 extern void Lcd_clear_screen(uint16_t color);

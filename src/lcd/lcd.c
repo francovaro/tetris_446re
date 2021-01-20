@@ -59,6 +59,8 @@ void Lcd_print_piece(s_piece* piece_to_display, uint8_t x, uint8_t y)
 {
 #ifdef ST7735
 
+    (void)pieces[piece_to_display->_base_prop->_type];    // no warning :p
+#if 0
     switch(piece_to_display->_base_prop->_type)
     {
         case e_piece_I:
@@ -72,6 +74,6 @@ void Lcd_print_piece(s_piece* piece_to_display, uint8_t x, uint8_t y)
         }
         break;
     }
-
+#endif
 #endif
 }

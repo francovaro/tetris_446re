@@ -2982,7 +2982,7 @@ Discarded input sections
  .text.Lcd_print_string
                 0x00000000       0x26 src/lcd/lcd.o
  .text.Lcd_print_piece
-                0x00000000       0x2c src/lcd/lcd.o
+                0x00000000       0x1c src/lcd/lcd.o
  .debug_macro   0x00000000      0xa72 src/lcd/lcd.o
  .debug_macro   0x00000000       0x22 src/lcd/lcd.o
  .debug_macro   0x00000000       0x58 src/lcd/lcd.o
@@ -5912,7 +5912,7 @@ OUTPUT(tetris_446re.elf elf32-littlearm)
  .debug_macro   0x00007212      0x214 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_usart.o)
  .debug_macro   0x00007426      0x21d C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_usart.o)
 
-.debug_line     0x00000000     0xe541
+.debug_line     0x00000000     0xe53c
  .debug_line    0x00000000      0x8b1 src/FreeRTOS/list.o
  .debug_line    0x000008b1     0x1275 src/FreeRTOS/tasks.o
  .debug_line    0x00001b26      0x904 src/FreeRTOS/portable/GCC/ARM_CM4F/port.o
@@ -5927,20 +5927,20 @@ OUTPUT(tetris_446re.elf elf32-littlearm)
  .debug_line    0x000067cd      0x71a src/system_stm32f4xx.o
  .debug_line    0x00006ee7      0x82b src/task_handler.o
  .debug_line    0x00007712      0x710 src/lcd/delay.o
- .debug_line    0x00007e22      0x4e4 src/lcd/lcd.o
- .debug_line    0x00008306      0xaad src/lcd/st7735_cmd.o
- .debug_line    0x00008db3       0x9e src/screen/screen.o
- .debug_line    0x00008e51      0x493 src/screen/splash_screen.o
- .debug_line    0x000092e4       0x7c startup/startup_stm32.o
- .debug_line    0x00009360      0x75c C:\work\workspace_stm\lib_uart\Debug\liblib_uart.a(lib_uart.o)
- .debug_line    0x00009abc      0x6e7 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(misc.o)
- .debug_line    0x0000a1a3      0x735 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_exti.o)
- .debug_line    0x0000a8d8      0x80d C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_gpio.o)
- .debug_line    0x0000b0e5      0xb8a C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_rcc.o)
- .debug_line    0x0000bc6f      0x918 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_spi.o)
- .debug_line    0x0000c587      0x708 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_syscfg.o)
- .debug_line    0x0000cc8f      0xf5f C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_tim.o)
- .debug_line    0x0000dbee      0x953 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_usart.o)
+ .debug_line    0x00007e22      0x4df src/lcd/lcd.o
+ .debug_line    0x00008301      0xaad src/lcd/st7735_cmd.o
+ .debug_line    0x00008dae       0x9e src/screen/screen.o
+ .debug_line    0x00008e4c      0x493 src/screen/splash_screen.o
+ .debug_line    0x000092df       0x7c startup/startup_stm32.o
+ .debug_line    0x0000935b      0x75c C:\work\workspace_stm\lib_uart\Debug\liblib_uart.a(lib_uart.o)
+ .debug_line    0x00009ab7      0x6e7 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(misc.o)
+ .debug_line    0x0000a19e      0x735 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_exti.o)
+ .debug_line    0x0000a8d3      0x80d C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_gpio.o)
+ .debug_line    0x0000b0e0      0xb8a C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_rcc.o)
+ .debug_line    0x0000bc6a      0x918 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_spi.o)
+ .debug_line    0x0000c582      0x708 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_syscfg.o)
+ .debug_line    0x0000cc8a      0xf5f C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_tim.o)
+ .debug_line    0x0000dbe9      0x953 C:\work\workspace_stm\nucleo-f446re_stdperiph_lib\Debug\libnucleo-f446re_stdperiph_lib.a(stm32f4xx_usart.o)
 
 .debug_str      0x00000000    0x7d102
  .debug_str     0x00000000    0x7326a src/FreeRTOS/list.o

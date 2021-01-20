@@ -216,7 +216,6 @@ void ST7735_send_panel_cmd(tST7735_panel_cmd panelCmd)
  */
 void ST7735_turns_display(uint8_t power)
 {
-	//CS_L();	/* start of transmission */
 	if (SET == power)
 	{
 		ST7735_send_sys_cmd(DISPON);
@@ -225,7 +224,6 @@ void ST7735_turns_display(uint8_t power)
 	{
 		ST7735_send_sys_cmd(DISPOFF);
 	}
-	//CS_H();	/* end of transmission */
 }
 
 void ST7735_set_orientation(tLCD_orientation orientation)
