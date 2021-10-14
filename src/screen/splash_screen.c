@@ -11,10 +11,13 @@
 #include "lcd\lcd.h"
 #include "lcd\color.h"
 
+
 /**
  *
  */
 void Splash_Screen_Print(void)
 {
-    Lcd_clear_screen(COLOR_RED);
+    Lcd_clear_screen(COLOR_WHITE);
 }
+
+

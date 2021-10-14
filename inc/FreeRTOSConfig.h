@@ -70,9 +70,9 @@
 #define configUSE_COUNTING_SEMAPHORES 	0
 #define configUSE_ALTERNATIVE_API 		0
 #define configCHECK_FOR_STACK_OVERFLOW	0
-#define configUSE_RECURSIVE_MUTEXES		1
+#define configUSE_RECURSIVE_MUTEXES		0
 #define configQUEUE_REGISTRY_SIZE		0
-#define configGENERATE_RUN_TIME_STATS	1
+#define configGENERATE_RUN_TIME_STATS	0
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
@@ -97,7 +97,7 @@ to exclude the API function. */
 format the raw data provided by the uxTaskGetSystemState() function in to human
 readable ASCII form.  See the notes in the implementation of vTaskList() within 
 FreeRTOS/Source/tasks.c for limitations. */
-#define configUSE_STATS_FORMATTING_FUNCTIONS	1
+#define configUSE_STATS_FORMATTING_FUNCTIONS	0
 
 /* This is the raw value as per the Cortex-M3 NVIC.  Values can be 255
 (lowest) to 0 (1?) (highest). */

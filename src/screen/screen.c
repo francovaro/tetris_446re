@@ -9,6 +9,7 @@
 
 #include "screen\screen.h"
 #include "screen\splash_screen.h"
+#include "screen\test_screen.h"
 
 /*
  * Best way to print a form:
@@ -31,7 +32,7 @@ void Screen_Print(t_screen screen_to_print)
         break;
         case e_screen_game:
         {
-
+            Test_screen();
         }
         break;
         case e_screen_game_over:

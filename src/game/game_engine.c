@@ -31,7 +31,7 @@ typedef enum
 }t_game_status;
 
 /* -------------------------------------------------------------------------------------------------------------------- */
-#define GAME_ENGINE_PERIOD         (250u)
+#define GAME_ENGINE_PERIOD         (50u)
 
 
 static t_game_status _actual_game_status = e_game_status_none;
@@ -78,6 +78,7 @@ portTASK_FUNCTION(vGameEngineTask, pvParameters)
                 /*
                  * TODO
                  */
+                Screen_Print(e_screen_game);
             }
             break;
             case e_game_status_game_over:

@@ -22,4 +22,5 @@
 "src/lcd/st7735_cmd.o"
 "src/screen/screen.o"
 "src/screen/splash_screen.o"
+"src/screen/test_screen.o"
 "startup/startup_stm32.o"

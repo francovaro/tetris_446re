@@ -91,6 +91,15 @@ typedef enum
 	e_panelcmd_max
 }tST7735_panel_cmd;
 
+typedef struct
+{
+    uint8_t     x0;
+    uint8_t     y0;
+    uint16_t    schema;
+    uint16_t    bck_color;
+    uint16_t    for_color;
+}t_draw_box;
+
 extern void ST7735_init_with_commands(void);
 
 extern void ST7735_send_sys_cmd(tST7735_system_cmd sysCmd);
@@ -99,9 +108,12 @@ extern void ST7735_turns_display(uint8_t power);
 extern void ST7735_set_orientation(tLCD_orientation orientation);
 extern void ST7735_set_windows(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
 extern void ST7735_draw_pixel(uint16_t x, uint16_t y, uint16_t color);
+extern void ST7735_draw_unfilled_rectangle(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
 extern void ST7735_draw_filled_rectangle(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
 extern void ST7735_draw_v_line(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color);
 extern void ST7735_draw_h_line(uint16_t x0, uint16_t x1, uint16_t y, uint16_t color);
 extern void ST7735_clear(uint16_t color);
+extern void ST7735_draw_box(t_draw_box box);
+extern void ST7735_draw_multiple_box(t_draw_box box, uint8_t how_many);
 
 #endif /* ST7735_CMD_H_ */

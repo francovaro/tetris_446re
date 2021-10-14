@@ -90,7 +90,7 @@ typedef struct
     uint16_t            id;
     t_rotation          _actual_rotation;
     t_position          _pos;
-    s_base_piece_prop*  _base_prop;
+    s_base_piece_prop const*  _base_prop;
 }s_piece;
 
 extern const s_base_piece_prop pieces[];

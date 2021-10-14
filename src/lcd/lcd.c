@@ -59,7 +59,16 @@ void Lcd_print_piece(s_piece* piece_to_display, uint8_t x, uint8_t y)
 {
 #ifdef ST7735
 
+    t_draw_box pippo;
     (void)pieces[piece_to_display->_base_prop->_type];    // no warning :p
+
+    pippo.x0 = piece_to_display->_pos.x;
+    pippo.y0 = piece_to_display->_pos.y;
+    pippo.for_color = piece_to_display->_base_prop->color;
+    pippo.bck_color = 0xFFFF;
+
+    ST7735_draw_box(pippo);
+
 #if 0
     switch(piece_to_display->_base_prop->_type)
     {

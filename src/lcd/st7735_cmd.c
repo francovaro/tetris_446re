@@ -13,6 +13,8 @@
 #include "spi.h"
 #include "lcd\delay.h"
 
+#include "lcd\color.h"
+
 #ifndef NULL
 #define NULL    ((void*)0)
 #endif
@@ -92,7 +94,7 @@ static uint8_t COLMOD_buffer_buffer[1] 	= {0x05};
 /*
  *
  */
-static uint8_t MAD_CTL_buffer[1] = {0x00};	/* was 0 */
+static uint8_t MAD_CTL_buffer[1] = {0xC8};	/* was 0 */
 
 static void ST7735_sys_cmd_init(void);
 static void ST7735_panel_cmd_init(void);
@@ -383,9 +385,51 @@ void ST7735_draw_v_line(uint16_t x, uint16_t y0, uint16_t y1, uint16_t color)
  */
 void ST7735_clear(uint16_t color)
 {
-    ST7735_draw_filled_rectangle(0, 0, (LCD_SCREEN_W - 1), (LCD_SCREEN_H - 1), color);
+//    ST7735_draw_filled_rectangle(0, 0, 63, 63, COLOR_WHITE);
+//    ST7735_draw_filled_rectangle(64, 0, (LCD_SCREEN_W - 1), 63, COLOR_BLACK);
+//    ST7735_draw_filled_rectangle(0, 64, 63, (LCD_SCREEN_H - 1), COLOR_RED);
+//    ST7735_draw_filled_rectangle(64, 64, (LCD_SCREEN_W - 1), (LCD_SCREEN_H - 1), COLOR_YELLOW);
+
+    ST7735_draw_filled_rectangle(0, 0, (LCD_SCREEN_W), (LCD_SCREEN_H), color);
 }
 
+/**
+ *
+ * @param box
+ */
+void ST7735_draw_box(t_draw_box box)
+{
+    uint8_t count;
+
+    ST7735_set_windows(box.x0, box.y0, box.x0+4, box.y0 +4);
+
+    A0_H();
+    CS_L();
+
+    for (count = 0; count < 16; count++)
+    {
+        if ((box.schema & (1<<count)) == (1<<count))
+        {
+            ST7735_write(box.for_color >> 8);
+            ST7735_write((uint8_t)box.for_color);
+        }
+        else
+        {
+            ST7735_write(box.bck_color >> 8);
+            ST7735_write((uint8_t)box.bck_color);
+        }
+
+    }
+
+    CS_H();
+}
+
+void ST7735_draw_multiple_box(t_draw_box box, uint8_t how_many)
+{
+
+}
+
+/* --------------------------------------------------------------------------------------------------- */
 /**
  *
  */
