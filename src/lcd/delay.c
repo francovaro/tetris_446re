@@ -14,7 +14,7 @@ __IO uint32_t _req_delay_us;
 /**
  * @brief Initializes TIM2
  */
-void Delay_init(void)
+void delay_init(void)
 {
     TIM_TimeBaseInitTypeDef     TIM_TimeBaseInitStruct;
     NVIC_InitTypeDef            NVIC_InitStructure;

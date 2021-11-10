@@ -22,6 +22,6 @@ void Hardware_Init(void)
     SPI_Config();
     UART_lib_config(e_UART_2, DISABLE, 0, 0);
 
-    Delay_init();
+    delay_init();
     Lcd_Init();
 }
